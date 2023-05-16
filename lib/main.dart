@@ -210,7 +210,7 @@ class _HomeState extends State<Home> {
                 //     ),
 
                 SizedBox(height: 50,),
-
+                Divider(),
                 Table(border: TableBorder(borderRadius: BorderRadius.circular(5)),
                   children: [
                     TableRow(children: [Text("id"),Text("type"),Text("name"),Text("ppu"),Text("Batter"),Text("Toppings"),]),
