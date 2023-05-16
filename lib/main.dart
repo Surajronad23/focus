@@ -28,7 +28,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-
+    var listResponse=[];
+    var list2=[];
+    var arr=[];
     var jsonData=[
       {
         "id": "0001",
@@ -95,6 +97,64 @@ class _HomeState extends State<Home> {
         ]
       }
     ];
+    var d;
+    var l;
+    var k;
+    var t;
+    var to="";
+    for(int i=0;i<jsonData.length;i++){
+      var arr2=[];
+      to="";
+      d=jsonData[i];
+      l= d["batters"];
+      k = l["batter"];
+      t=d["topping"];
+      for(int j=0;j<t.length;j++)
+      {
+        to+=t[j]['type'];
+        to+=",";
+      }
+      for(int j=0;j<k.length;j++){
+        arr.clear();
+        arr.add("${jsonData[i]["id"]}");
+        arr.add("${jsonData[i]["type"]}");
+        arr.add("${jsonData[i]["name"]}");
+        arr.add("${jsonData[i]["ppu"].toString()}");
+        arr.add("${k[j]['type']}");
+        arr.add("${to}");
+        arr2=arr;
+        list2.add(arr2);
+      }
+
+    }
+
+    var Response=[];
+
+    var topps="";
+    var batt=[];
+
+    var x;
+    for(int i=0;i<jsonData.length;i++){
+      listResponse.add(jsonData[i]);
+      x=jsonData[i]['batters'];
+      Response.add(x['batter']);
+      }
+
+    for(int i=0;i<listResponse.length;i++){
+       d=listResponse[i];
+       l= d["batters"];
+       k = l["batter"];
+       t= d["topping"];
+      for(int j=0;j<k.length;j++)
+        {
+          batt.add(k[0]['type']);
+        }
+      for(int j=0;j<t.length;j++)
+      {
+        topps+=t[j]['type'];
+        topps+=",";
+      }
+    }
     var d1=jsonData[0];
     var d2=jsonData[1];
     var mapResponse;
@@ -123,13 +183,14 @@ class _HomeState extends State<Home> {
 
 
 
-    print("Batters are $k1");
-    print("Toppings are $t1");
+    // print("Batters are $k1");
+    // print("Toppings are $t1");
 
     l2=d2["batters"];
     k2=l2["batter"];
 
-    var batters2=k2[0]['type'];
+    var batters2 =[];
+    batters2.add(k2[0]['type']);
 
     t2=d2["topping"];
     var toppings2="";
@@ -137,8 +198,8 @@ class _HomeState extends State<Home> {
     toppings2+=",";
     toppings2+=t2[1]['type'];
 
-    print("Second Batters are $k2");
-    print("Second Toppings are $t2");
+    // print("Second Batters are $k2");
+    // print("Second Toppings are $t2");
 
   data a = data();
   data b = data();
@@ -153,8 +214,10 @@ class _HomeState extends State<Home> {
   b.ppu=d2["ppu"];
   b.type=d2["type"];
 
-
-
+    print("hi");
+    print(list2.toString());
+    print(Response);
+    print("hello");
     // var data11=data1['batters'];
 
     // var data2=jsonData[1]['batters']['batter'];
@@ -177,49 +240,85 @@ class _HomeState extends State<Home> {
                 Text("Element2"),
                 Text("Batters : $batters2"),
                 Text("Toppings : $toppings2"),
-                // TextField(
-                //   focusNode: myfocus, //apply focus node
+                // Text("${list2.toString()}"),
+                SizedBox(height: 50,),
+                // Flexible(
+                //     child: ListView.builder(
+                //       itemCount: list2.length,
+                //         itemBuilder: (context,index){
+                //           return Table(
+                //             children: [
+                //               TableRow(children: [
+                //                 Text("${list2[index][0]}"),
+                //                 Text("${list2[index][1]}"),
+                //                 Text("${list2[index][2]}"),
+                //                 Text("${list2[index][3]}"),
+                //                 Text("${list2[index][4]}"),
+                //                 Text("${list2[index][5]}"),
+                //               ])
+                //             ],
+                //           );
+                //         }
+                //     )
                 // ),
-                //
-                // ElevatedButton(
-                //     onPressed: (){
-                //       myfocus.requestFocus(); //focus
-                //     },
-                //     child: Text("Focus on TextField")
-                // ),
-                //
-                // ElevatedButton(
-                //     onPressed: (){
-                //       myfocus.unfocus(); //unfocus
-                //     },
-                //     child: Text("Unfocus from TextField")
-                // )
-                SizedBox(height: 5,),
+                SizedBox(width: 2,),
+                // Text(Response.toString()),
+                SizedBox(width: 2,),
+                Text("Table View : ",style: TextStyle(fontWeight: FontWeight.w600),),
+                SizedBox(height: 10,),
+                Table(border: TableBorder(borderRadius: BorderRadius.circular(5)),
+              children: [
+                TableRow(children: [Text("id"),Text("type"),Text("name"),Text("ppu"),Text("Batter"),Text("Toppings"),]),
+                ]
+            ),
+                Flexible(
+                      flex: 14,
+                      child: ListView.builder(itemCount: batters1.length,
+                        itemBuilder: (context, index) {
+                        return  Table(border: TableBorder(borderRadius: BorderRadius.circular(5)),
+                          children: [
+                            TableRow(children: [Text(a.id),Text(a.type),Text(a.name),Text(a.ppu.toString()),Text("${batters1[index]}"),Text("$toppings1")]),
+                          ],);
+                      },),
+                    ),
+                Flexible(
+                  flex: 10,
+                  child: ListView.builder(itemCount: batters2.length,
+                    itemBuilder: (context, index) {
+                      return  Table(border: TableBorder(borderRadius: BorderRadius.circular(5)),
+                        children: [
+                          TableRow(children: [Text(b.id),Text(b.type),Text(b.name),Text(b.ppu.toString()),Text("${batters2[index]}"),Text("$toppings2")]),
+                        ],);
+                    },),
+                ),
+                Divider(),
                 // Flexible(
                 //       flex: 1,
-                //       child: ListView.builder(itemCount: 3,
-                //         itemBuilder: (context, index) {
-                //         return  Table(border: TableBorder(borderRadius: BorderRadius.circular(5)),
-                //           children: [
-                //             TableRow(children: [
-                //               Text("c"),
-                //               Text("d")
-                //             ]),
-                //           ],);
+                //       child: ListView.builder(itemCount: listResponse.length,
+                //         itemBuilder: (context, index1) {
+                //         return Flexible(
+                //           child: ListView.builder(itemCount: Response[index1].length,
+                //               itemBuilder: (context, index2) {
+                //             return Table(border: TableBorder(borderRadius: BorderRadius.circular(5)),
+                //               children: [
+                //                 TableRow(children: [Text(a.id),Text(a.type),Text(a.name),Text(a.ppu.toString()),Text("${Response[index1][index2]}"),Text("${topps}")]),
+                //               ],);
+                //           }),
+                //         );
+                //
                 //       },),
                 //     ),
+                SizedBox(height: 5,),
 
-                SizedBox(height: 50,),
+                // Table(border: TableBorder(borderRadius: BorderRadius.circular(5)),
+                //   children: [
+                //     TableRow(children: [Text("id"),Text("type"),Text("name"),Text("ppu"),Text("Batter"),Text("Toppings"),]),
+                //     TableRow(children: [Text(a.id),Text(a.type),Text(a.name),Text(a.ppu.toString()),Text("${batters1[0]}"),Text("$toppings1")]),
+                //     TableRow(children: [Text(a.id),Text(a.type),Text(a.name),Text(a.ppu.toString()),Text("${batters1[1]}"),Text("$toppings1")]),
+                //     TableRow(children: [Text(a.id),Text(a.type),Text(a.name),Text(a.ppu.toString()),Text("${batters1[2]}"),Text("$toppings1")]),
+                //     TableRow(children: [Text(b.id),Text(b.type),Text(b.name),Text(b.ppu.toString()),Text("${batters2}"),Text("$toppings2")]),
+                //   ],),
                 Divider(),
-                Table(border: TableBorder(borderRadius: BorderRadius.circular(5)),
-                  children: [
-                    TableRow(children: [Text("id"),Text("type"),Text("name"),Text("ppu"),Text("Batter"),Text("Toppings"),]),
-                    TableRow(children: [Text(a.id),Text(a.type),Text(a.name),Text(a.ppu.toString()),Text("${batters1[0]}"),Text("$toppings1")]),
-                    TableRow(children: [Text(a.id),Text(a.type),Text(a.name),Text(a.ppu.toString()),Text("${batters1[1]}"),Text("$toppings1")]),
-                    TableRow(children: [Text(a.id),Text(a.type),Text(a.name),Text(a.ppu.toString()),Text("${batters1[2]}"),Text("$toppings1")]),
-                    TableRow(children: [Text(b.id),Text(b.type),Text(b.name),Text(b.ppu.toString()),Text("${batters2}"),Text("$toppings2")]),
-                  ],),
-
                 // Flexible(
                 //   child: DataTable(
                 //       columns: [
